@@ -27,13 +27,14 @@
                 <p>{{self.user_name}}:</p>
                 <form action="/message" method="post" id="create_message">
                     {% csrf_token %}
-                    <input type="text" name = "message">
+                    <input type="text" name = "message" id = "text">
                     <input type="hidden" name = "user" value ="{{self}}">
                     <input type="submit" vlaue="Submit">
                 </form>
             </fieldset>
             <script>
                     $('#create_message').submit(function(e){
+                        document.getElementById("text").value = ''
                       e.preventDefault()
                       $.ajax({
                         url: $(this).attr('action'), /* Where should this go? */
@@ -51,7 +52,7 @@
         </div>
     </div>
     <script>
-            $(document).ready(function(){
+            function setInt(){
                 $.ajax({
                 url: '/load', /* Where should this go? */
                 success: function(serverResponse) { /* What code should we run when the server responds? */
@@ -60,7 +61,7 @@
                     objDiv.scrollTop = objDiv.scrollHeight;
                 }
                 })
-            });
+            }; setInterval(setInt, 1000)
             </script>
 </body>
 </html>

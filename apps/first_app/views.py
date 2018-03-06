@@ -37,19 +37,38 @@ def message(req):
     if len(result):
         for tag, error in result.iteritems():
             messages.error(req, error, extra_tags=tag)
-        message = Messages.objects.all()
-        return render(req, 'regis/all.html', {'messages': message})
+        messages = Messages.objects.all()
+        num1 = len(messages)
+        num2 = len(messages) - 20
+        message = Messages.objects.filter(id__range=(num2, num1))
+        user = User.manager.get(id=req.session['id'])
+        context = {
+            'self': user,
+            'messages': message
+        }
+        return render(req, 'regis/all.html', context)
     else:
         user = User.manager.get(id=req.session['id'])
         Messages.objects.create(message = req.POST['message'], user = user)
-        message = Messages.objects.all()
-        return render(req, 'regis/all.html', {'messages': message})
+        messages = Messages.objects.all()
+        num1 = len(messages)
+        num2 = len(messages) - 20
+        message = Messages.objects.filter(id__range=(num2, num1))
+        user = User.manager.get(id=req.session['id'])
+        context = {
+            'self': user,
+            'messages': message
+        }
+        return render(req, 'regis/all.html', context)
 
 def success(req):
     if noname(req):
         return redirect('/')
+    messages = Messages.objects.all()
+    num1 = len(messages)
+    num2 = len(messages) - 20
+    message = Messages.objects.filter(id__range=(num2, num1))
     user = User.manager.get(id=req.session['id'])
-    message = Messages.objects.all()
     context = {
         'self': user,
         'messages': message
@@ -64,5 +83,13 @@ def logout(req):
     return redirect('/')
 
 def load(req):
-    message = Messages.objects.all()
-    return render(req, 'regis/all.html', {'messages': message})
+    messages = Messages.objects.all()
+    num1 = len(messages)
+    num2 = len(messages) - 20
+    message = Messages.objects.filter(id__range=(num2, num1))
+    user = User.manager.get(id=req.session['id'])
+    context = {
+        'self': user,
+        'messages': message
+    }
+    return render(req, 'regis/all.html', context)
