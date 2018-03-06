@@ -1,3 +1,10 @@
+*{
+
+}
+.tips{
+    list-style: none;
+}
+
 #login{
     border: 1px solid black;
     width: 300px;
@@ -6,25 +13,37 @@
     vertical-align: top;
     padding: 10px 10px 10px 10px;
     
-
+}
+#LandR{
+    width: 1000px;
+    height: auto;
+    margin: 0 auto;
+}
+#wrapper{
+    width: 500px;
+    height: auto;
+    margin: 0 auto;
 }
 
 .onclick-menu {
     position: relative;
-    display: inline-block;
 }
-
 .onclick-menu:focus .onclick-menu-content {
-    display: block;
+    /* content is visible if menu is 'opened' */
+    visibility: visible;
 }
 .onclick-menu-content {
     position: absolute;
     z-index: 1;
-
-    display: none;
+    background-color: tan;
+    /* disable visibility by default, delay to enable clicks */
+    visibility: hidden;
+    transition: visibility 0.5s;
 }
 
-
+.remove{
+    list-style: none;
+}
 .stuff{
      margin: 10px 0 0 0;
 }

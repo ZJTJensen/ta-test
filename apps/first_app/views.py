@@ -6,7 +6,7 @@ def noname(req):
     return 'id' not in req.session
 
 def index(req):
-    req.session.clear()
+   
     return render(req, "regis/index.html")
 
 def login(req):
@@ -34,6 +34,19 @@ def register(req):
 
 def message(req):
     msgsLen = Messages.objects.all().count()
+    user = User.manager.get(id=req.session['id'])
+    for users in BanList.objects.all():
+        if users.user == user:
+            message = Messages.objects.all()
+            user = User.manager.get(id=req.session['id'])
+            banlist = BanList.objects.all()
+            context = {
+                'self': user,
+                'messages': message,
+                "banList":  banlist,
+                'banmessage': 'you have been banneed'
+            }
+            return render(req, 'regis/all.html', context)
 
     #if there are more than 100 messages, deletes the first four hundred messages
     if msgsLen > 30:
@@ -45,9 +58,11 @@ def message(req):
         for tag, error in result.iteritems():
             messages.error(req, error, extra_tags=tag)
         message = Messages.objects.all()
+        banlist = BanList.objects.all()
         user = User.manager.get(id=req.session['id'])
         context = {
             'self': user,
+            "banList":  banlist,
             'messages': message
         }
         return render(req, 'regis/all.html', context)
@@ -56,9 +71,11 @@ def message(req):
         newmessage = profanity.censor(req.POST['message'])
         Messages.objects.create(message = newmessage, user = user)
         message = Messages.objects.all()
+        banlist = BanList.objects.all()
         user = User.manager.get(id=req.session['id'])
         context = {
             'self': user,
+            "banList":  banlist,
             'messages': message
         }
         return render(req, 'regis/all.html', context)
@@ -67,9 +84,11 @@ def success(req):
     if noname(req):
         return redirect('/')
     message = Messages.objects.all()
+    banlist = BanList.objects.all()
     user = User.manager.get(id=req.session['id'])
     context = {
         'self': user,
+        "banList":  banlist,
         'messages': message
     }
     return render(req, "regis/success.html", context)
@@ -84,8 +103,42 @@ def logout(req):
 def load(req):
     message = Messages.objects.all()
     user = User.manager.get(id=req.session['id'])
+    banlist = BanList.objects.all()
     context = {
         'self': user,
+        "banList":  banlist,
         'messages': message
     }
     return render(req, 'regis/all.html', context)
+
+def removeMessage(req, id):
+    m = Messages.objects.get(id=id)
+    m.message = "This message has been deleted"
+    m.save()
+    return redirect('/success')
+
+
+def banUser(req, id):
+    cuser = User.manager.get(id=req.session['id'])
+    if cuser.admin != True:
+        return redirect ('/success')
+    message = Messages.objects.get(id=id)
+    banned = BanList.objects.all()
+    for ban in banned:
+        if ban.user == message.user:
+            ban.delete()
+            Messages.objects.create(message = "" + message.user.user_name + " Has been unbanned", user = None)
+            return redirect('/success')
+
+    message.message = "This user has been banned for this message"
+    message.save()
+    user = message.user
+    BanList.objects.create(user=user)
+    return redirect('/success')
+
+def unbanUser(req, id):
+    cuser = User.manager.get(id=req.session['id'])
+    if cuser.admin != True:
+        return redirect ('/success')
+    BanList.objects.get(id=id).delete()
+    return redirect('/success')

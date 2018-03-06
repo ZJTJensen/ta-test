@@ -8,5 +8,9 @@ urlpatterns=[
     url(r'^login$', views.login),
     url(r'^message$', views.message),
     url(r'^load$', views.load),
-    url(r'^logout$', views.logout)
+    url(r'^logout$', views.logout),
+    url(r'^delete/(?P<id>\d+)$', views.removeMessage),
+    url(r'^ban/(?P<id>\d+)$', views.banUser),
+    url(r'^unban/(?P<id>\d+)$', views.unbanUser),
+
 ]

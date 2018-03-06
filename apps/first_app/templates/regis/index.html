@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{% static 'regis/style.css' %}">
 </head>
 <body>
+    <div id="LandR">
     <div id = "register">
     <form action="/register" method="post">
         {% csrf_token %}
@@ -66,6 +67,7 @@
         socket.emit('message', {reaseon: "because"});
     });
     </script>
+    </div>
 </body>
 
 </html>

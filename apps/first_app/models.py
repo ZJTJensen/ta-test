@@ -91,7 +91,8 @@ class Messages(models.Model):
     manager = MessageManager()
 
 class BanList(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    banTime = models.IntegerField()
-    user = models.ForeignKey(User, related_name= "ban")
+    # created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, related_name="banned", null = True)
+    
+
 

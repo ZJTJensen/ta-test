@@ -7,35 +7,50 @@
 {% for message in messages %}
 <div class="input-group">
     {% if message.user == None and 'logged in' in message.message %}
-    <p style="color: green;">{{message.message}}</p>
-    {% endif%}
-    {% if message.user == None and 'logged out' in message.message %}
-    <p style="color: red;">{{message.message}}</p>
-    {% endif%}
-    {% if message.user == None and 'made a' in message.message %}
-    <p style="color: purple;">{{message.message}}</p>
-    {% endif%}
-    {% if message.user == self and message.user != None %}
+        <p style="color: green;">{{message.message}}</p>
+    {% elif 'admin~' in message.message %}
+        {% if self.admin == True%}
+            <p style="color: black;">{{message.user.user_name}}: {{message.message}}</p>
+        {% endif %}
+    {% elif 'http' in message.message %}
+        <a href="{{message.message}}">{{message.user.user_name}}: {{message.message}}</a>
+    {% elif message.user == None and 'unbanned' in message.message %}
+        <p style="color: yellow;">{{message.message}}</p>
+    
+    {% elif message.user == None and 'logged out' in message.message %}
+        <p style="color: red;">{{message.message}}</p>
+    
+    {% elif message.user == None and 'made a' in message.message %}
+        <p style="color: purple;">{{message.message}}</p>
+    
+    {% elif message.user == self and message.user != None %}
             <p style = "color: blue;">{{message.user.user_name}}: {{message.message}}</p>
-    {% endif %}
-    {% if message.user != self and message.user.user_name != None%}
+    
+    {% elif message.user != self and message.user.user_name != None%}
         {% if self.admin == False%}
-            <p style = "color: orange;">{{message.user.user_name}}: {{message.message}}</p>
-        {% endif%}
-        {% if self.admin == False%}
-            <p style = "color: orange;">{{message.user.user_name}}: {{message.message}}</p>
+        
+            <p style = "color: orange;">
+                    {% if message.user.admin == True %}
+                    Admin-
+                {% endif %}
+                {{message.user.user_name}}: {{message.message}}</p>
         {% endif%}
         {% if self.admin == True %}
-            <p class="onclick-menu" style = "color: orange;">{{message.user.user_name}}: {{message.message}}</p>
-            <div>
+        <div tabindex="0" class="onclick-menu"> <p style = "color: orange;">
+            {{message.user.user_name}}: {{message.message}}</p>
                 <ul class="onclick-menu-content">
-                    <li>Delete Message</li>
-                    <li>Ban {{message.user.user_name}}</li>
-                </ul>
+                        <li class='remove'><a id = "test" href="/delete/{{message.id}}">Delete Message</a></li>
+                        <li class='remove'><a href = "/ban/{{message.id}}">Un-Ban/Ban {{message.user.user_name}}</a></li>
+                    </ul>
             </div>
         {% endif%}
     {% endif%}
 </div>
 {% endfor %}
+    {% if banmessage %}
+        <script>
+            alert("YOU HAVE BEEN BANNED!!!");
+        </script>
+    {% endif %}
 {% endif %}
 </div>
