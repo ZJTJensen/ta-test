@@ -1,6 +1,11 @@
-
+<head>
+        {% load static %}
+    <link rel="stylesheet" href="{% static 'regis/style.css' %}">
+</head>
+<div id="messages-list">
 {% if messages %}
 {% for message in messages %}
+<div class="input-group">
     {% if message.user == None and 'logged in' in message.message %}
     <p style="color: green;">{{message.message}}</p>
     {% endif%}
@@ -11,11 +16,26 @@
     <p style="color: purple;">{{message.message}}</p>
     {% endif%}
     {% if message.user == self and message.user != None %}
-        <p style = "color: blue;">{{message.user.user_name}}: {{message.message}}</p>
+            <p style = "color: blue;">{{message.user.user_name}}: {{message.message}}</p>
+    {% endif %}
+    {% if message.user != self and message.user.user_name != None%}
+        {% if self.admin == False%}
+            <p style = "color: orange;">{{message.user.user_name}}: {{message.message}}</p>
+        {% endif%}
+        {% if self.admin == False%}
+            <p style = "color: orange;">{{message.user.user_name}}: {{message.message}}</p>
+        {% endif%}
+        {% if self.admin == True %}
+            <p class="onclick-menu" style = "color: orange;">{{message.user.user_name}}: {{message.message}}</p>
+            <div>
+                <ul class="onclick-menu-content">
+                    <li>Delete Message</li>
+                    <li>Ban {{message.user.user_name}}</li>
+                </ul>
+            </div>
+        {% endif%}
     {% endif%}
-    {% if message.user != self %}
-        <p style = "color: orange;">{{message.user.user_name}}: {{message.message}}</p>
-    {% endif%}
-    
+</div>
 {% endfor %}
 {% endif %}
+</div>

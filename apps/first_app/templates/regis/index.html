@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Board</title>
+    <script src="http://localhost:4000/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'regis/style.css' %}">
 </head>
@@ -51,5 +53,19 @@
 
     {% endif %}
 
+    <script>
+        
+    var host = 'localhost';
+    var nodejs_port = '4000';
+
+    var socket = io(host + ':' + nodejs_port);
+    $(document).ready(function(){
+        socket.emit('message', {reaseon: "because"});
+    });
+    $(".button").click(function(){
+        socket.emit('message', {reaseon: "because"});
+    });
+    </script>
 </body>
+
 </html>

@@ -33,14 +33,18 @@ def register(req):
     return redirect('/')
 
 def message(req):
+    msgsLen = Messages.objects.all().count()
+
+    #if there are more than 100 messages, deletes the first four hundred messages
+    if msgsLen > 30:
+       for message in Messages.objects.all()[:20]:
+           message.delete()
+
     result = Messages.manager.createMessages(req.POST)
     if len(result):
         for tag, error in result.iteritems():
             messages.error(req, error, extra_tags=tag)
-        messages = Messages.objects.all()
-        num1 = len(messages)
-        num2 = len(messages) - 20
-        message = Messages.objects.filter(id__range=(num2, num1))
+        message = Messages.objects.all()
         user = User.manager.get(id=req.session['id'])
         context = {
             'self': user,
@@ -51,10 +55,7 @@ def message(req):
         user = User.manager.get(id=req.session['id'])
         newmessage = profanity.censor(req.POST['message'])
         Messages.objects.create(message = newmessage, user = user)
-        messages = Messages.objects.all()
-        num1 = len(messages)
-        num2 = len(messages) - 20
-        message = Messages.objects.filter(id__range=(num2, num1))
+        message = Messages.objects.all()
         user = User.manager.get(id=req.session['id'])
         context = {
             'self': user,
@@ -65,10 +66,7 @@ def message(req):
 def success(req):
     if noname(req):
         return redirect('/')
-    messages = Messages.objects.all()
-    num1 = len(messages)
-    num2 = len(messages) - 20
-    message = Messages.objects.filter(id__range=(num2, num1))
+    message = Messages.objects.all()
     user = User.manager.get(id=req.session['id'])
     context = {
         'self': user,
@@ -84,10 +82,7 @@ def logout(req):
     return redirect('/')
 
 def load(req):
-    messages = Messages.objects.all()
-    num1 = len(messages)
-    num2 = len(messages) - 20
-    message = Messages.objects.filter(id__range=(num2, num1))
+    message = Messages.objects.all()
     user = User.manager.get(id=req.session['id'])
     context = {
         'self': user,

@@ -10,7 +10,3 @@ urlpatterns=[
     url(r'^load$', views.load),
     url(r'^logout$', views.logout)
 ]
-
-# urlpatterns += [
-#     url("", include('django_socketio.urls')),
-# ]

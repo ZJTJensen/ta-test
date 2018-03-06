@@ -51,7 +51,11 @@ class UserManager(models.Manager):
             flag= True
         if flag:
             return (False, collections.OrderedDict(errors))
-        new_user = self.create(user_name = data['user_name'], email = data['email'],  password = bcrypt.hashpw(data['password'], bcrypt.gensalt()))
+        if len(User.manager.all()) >= 1:
+            admin = False
+        else:
+            admin = True
+        new_user = self.create(admin = admin, user_name = data['user_name'], email = data['email'],  password = bcrypt.hashpw(data['password'], bcrypt.gensalt()))
         return(True, new_user)
     
     def login(self, form):
@@ -76,6 +80,7 @@ class User(models.Model):
     user_name = models.CharField(max_length= 20)
     email = models.CharField(max_length= 50)
     password = models.CharField(max_length= 255)
+    admin = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     manager= UserManager()
@@ -84,3 +89,9 @@ class Messages(models.Model):
     message = models.TextField()
     user = models.ForeignKey(User, related_name="messager", null = True)
     manager = MessageManager()
+
+class BanList(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    banTime = models.IntegerField()
+    user = models.ForeignKey(User, related_name= "ban")
+

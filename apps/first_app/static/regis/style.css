@@ -8,13 +8,31 @@
     
 
 }
+
+.onclick-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.onclick-menu:focus .onclick-menu-content {
+    display: block;
+}
+.onclick-menu-content {
+    position: absolute;
+    z-index: 1;
+
+    display: none;
+}
+
+
 .stuff{
      margin: 10px 0 0 0;
 }
 #messages{
     width: 100%;
     height: 250px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     border: 1px solid black;
 }
 #error{
