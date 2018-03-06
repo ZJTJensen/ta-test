@@ -1,12 +1,4 @@
-<head>
-    {% load socketio_tags %}
-        {% socketio %}
-        <script>
-            var socket = new io.Socket();
-            socket.connect();
-            // etc
-        </script>
-</head>
+
 {% if messages %}
 {% for message in messages %}
     {% if message.user == None and 'logged in' in message.message %}
