@@ -1,0 +1,29 @@
+<head>
+    {% load socketio_tags %}
+        {% socketio %}
+        <script>
+            var socket = new io.Socket();
+            socket.connect();
+            // etc
+        </script>
+</head>
+{% if messages %}
+{% for message in messages %}
+    {% if message.user == None and 'logged in' in message.message %}
+    <p style="color: green;">{{message.message}}</p>
+    {% endif%}
+    {% if message.user == None and 'logged out' in message.message %}
+    <p style="color: red;">{{message.message}}</p>
+    {% endif%}
+    {% if message.user == None and 'made a' in message.message %}
+    <p style="color: purple;">{{message.message}}</p>
+    {% endif%}
+    {% if message.user == self and message.user != None %}
+        <p style = "color: blue;">{{message.user.user_name}}: {{message.message}}</p>
+    {% endif%}
+    {% if message.user != self %}
+        <p style = "color: orange;">{{message.user.user_name}}: {{message.message}}</p>
+    {% endif%}
+    
+{% endfor %}
+{% endif %}

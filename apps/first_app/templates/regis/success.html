@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Board</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'regis/style.css' %}">
+</head>
+<body>
+
+<h1>LOGIN SUCCESSS </br>{{self.email}}</h1>
+<p><a id = "logout" href="/logout">Logout</a></p>
+
+
+
+    <div id="chatroom">
+        <div id = "messages">
+        
+        </div>
+        
+        <div id="text">
+            <fieldset>
+                <p>{{self.user_name}}:</p>
+                <form action="/message" method="post" id="create_message">
+                    {% csrf_token %}
+                    <input type="text" name = "message">
+                    <input type="hidden" name = "user" value ="{{self}}">
+                    <input type="submit" vlaue="Submit">
+                </form>
+            </fieldset>
+            <script>
+                    $('#create_message').submit(function(e){
+                      e.preventDefault()
+                      $.ajax({
+                        url: $(this).attr('action'), /* Where should this go? */
+                        method: 'post', /* Which HTTP verb? */
+                        data: $(this).serialize(), /* Any data to send along? */
+                        success: function(serverResponse) { /* What code should we run when the server responds? */
+                          $('#messages').html(serverResponse)
+                            var objDiv = document.getElementById("messages");
+                            objDiv.scrollTop = objDiv.scrollHeight;
+                        }
+                      })
+                    });
+                </script>
+
+        </div>
+    </div>
+    <script>
+            $(document).ready(function(){
+                $.ajax({
+                url: '/load', /* Where should this go? */
+                success: function(serverResponse) { /* What code should we run when the server responds? */
+                    $('#messages').html(serverResponse)
+                    var objDiv = document.getElementById("messages");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                }
+                })
+            });
+            </script>
+</body>
+</html>
