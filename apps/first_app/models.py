@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from profanity import profanity 
 import collections
 import re
 import bcrypt

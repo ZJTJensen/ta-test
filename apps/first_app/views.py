@@ -49,7 +49,8 @@ def message(req):
         return render(req, 'regis/all.html', context)
     else:
         user = User.manager.get(id=req.session['id'])
-        Messages.objects.create(message = req.POST['message'], user = user)
+        newmessage = profanity.censor(req.POST['message'])
+        Messages.objects.create(message = newmessage, user = user)
         messages = Messages.objects.all()
         num1 = len(messages)
         num2 = len(messages) - 20
