@@ -93,6 +93,43 @@
 
         </div>
     </div>
+    {% if self.admin == True%}
+    <div id= "BanList">
+     <p id="bantext">Ban List(Click me)</p>
+         <div id = "listofban" style ="display:none;">
+                <form action='/find' method='post' class='ajax_form'>
+                Find all users whose first name starts with
+                    {% csrf_token %}
+                    <input type='text' name='first_name_starts_with' id='ajax_first_name' />
+                </form>
+                <div id='placeholder2' style='margin-top:35px; border:1px solid silver; padding:10px;'>
+                    Search for a Banned User
+                </div>
+                <script>
+                        $('.ajax_form').submit(function(e){
+                          e.preventDefault()
+                        })
+                        $('#ajax_first_name').keyup(function(){
+                          $.ajax({
+                            url: '/find', /* Where should this go? */
+                            method: 'post', /* Which HTTP verb? */
+                            data: $(this).parent().serialize(), /* Any data to send along? */
+                            success: function(serverResponse) { /* What code should we run when the server responds? */
+                              $('#placeholder2').html(serverResponse)
+                            }
+                          })
+                        });
+                      </script>
+         </div>
+     </div>
+     <script>
+     $("#bantext").click(function() {
+         $( "#listofban" ).slideToggle( "slow", function() {
+             // Animation complete.
+         });
+     });
+     </script>
+     {% endif %}
     <div id ="tipsandtrics">
         <ul>
             {% if self.admin == True %}
@@ -101,31 +138,7 @@
             <li class = "tips">Preface link with (http) to make it clickable</li>
         </ul>
     </div>
-    {% if self.admin == True%}
-   <div id= "BanList">
-    <p id="bantext">Ban List(Click me)</p>
-        <ul id = "listofban" style ="display:none;">
-           {% for ban in banList %}
-           <div tabindex="0" class="onclick-menu"> <p style = "color: orange;">
-                {{ban.user.user_name}}</p>
-                    <ul class="onclick-menu-content">
-                            <li class='remove'><a href = "/unban/{{ban.id}}">Un-Ban {{message.user.user_name}}</a></li>
-                        </ul>
-                </div>
-           {% endfor%}
-           {% if banList.count <= 0 %}
-            <p>No users are banned</p>
-           {% endif %}
-        </ul>
-    </div>
-    <script>
-    $("#bantext").click(function() {
-        $( "#listofban" ).slideToggle( "slow", function() {
-            // Animation complete.
-        });
-    });
-    </script>
-    {% endif %}
+
 </div>
 
 </body>

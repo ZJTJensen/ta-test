@@ -24,7 +24,22 @@
     height: auto;
     margin: 0 auto;
 }
+#search{
+    width: 430px;
+    height: auto;
+    margin: 0 auto;
+}
+#placeholder2{
+    width: 450px;
+    height: auto;
+    margin: 0 auto;
+}
 
+#listofban{
+    width: 430px;
+    height: auto;
+    margin: 0 auto;
+}
 .onclick-menu {
     position: relative;
 }
@@ -45,7 +60,7 @@
     list-style: none;
 }
 .stuff{
-     margin: 10px 0 0 0;
+     margin:  10px 0 0 0;
 }
 #messages{
     width: 100%;

@@ -1,0 +1,31 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'regis/style.css' %}">
+<fieldset id = "search">
+    <h4>Click to Un-Ban</h4>
+    {% if banList.count <= 0 %}
+        <p>No users are banned</p>
+        {% else %}
+            <table>
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for banned in users %}
+                    {% for user in banList %}
+                        {% if banned == user.user %}
+                        <tr>
+                            <td><a href="/unban/{{user.id}}">{{ banned.user_name }}</a></td>
+                            <td><a href="/unban/{{user.id}}">{{ banned.email }}</a></td>
+                            <td><a href="/unban/{{user.id}}">{{ banned.created_at }}</a></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+       </table>
+    {% endif %}
+</fieldset>

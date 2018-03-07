@@ -12,5 +12,7 @@ urlpatterns=[
     url(r'^delete/(?P<id>\d+)$', views.removeMessage),
     url(r'^ban/(?P<id>\d+)$', views.banUser),
     url(r'^unban/(?P<id>\d+)$', views.unbanUser),
+    url(r'^admin/(?P<id>\d+)$', views.adminUser),
+    url(r'^find$', views.find),
 
 ]

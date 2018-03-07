@@ -140,5 +140,28 @@ def unbanUser(req, id):
     cuser = User.manager.get(id=req.session['id'])
     if cuser.admin != True:
         return redirect ('/success')
-    BanList.objects.get(id=id).delete()
+    
+    banned = BanList.objects.get(id=id)
+    Messages.objects.create(message = "" + banned.user.user_name + " Has been unbanned", user = None)
+    banned.delete()
     return redirect('/success')
+
+def adminUser(req,id):
+    cuser = User.manager.get(id=req.session['id'])
+    if cuser.admin != True:
+        return redirect ('/success')
+    message = Messages.objects.get(id=id)
+    user = message.user
+    user.admin = True
+    user.save()
+    Messages.objects.create(message = "" + user.user_name + " Has been made a admin", user = None)
+    return redirect('/success')
+
+def find(request):
+    users = User.manager.filter(user_name__contains=request.POST['first_name_starts_with'])
+    banlist = BanList.objects.all()
+    context ={
+        "users": users,
+         "banList": banlist
+    }
+    return render(request, 'regis/users.html', context)

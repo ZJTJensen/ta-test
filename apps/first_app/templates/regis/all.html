@@ -35,15 +35,19 @@
                 {% endif %}
                 {{message.user.user_name}}: {{message.message}}</p>
         {% endif%}
-        {% if self.admin == True %}
+        {% if self.admin == True and message.user.admin != True%}
         <div tabindex="0" class="onclick-menu"> <p style = "color: orange;">
             {{message.user.user_name}}: {{message.message}}</p>
                 <ul class="onclick-menu-content">
+                        <li class='remove'><a href="/admin/{{message.id}}">Make {{message.user.user_name}} Admin</a></li>
                         <li class='remove'><a id = "test" href="/delete/{{message.id}}">Delete Message</a></li>
                         <li class='remove'><a href = "/ban/{{message.id}}">Un-Ban/Ban {{message.user.user_name}}</a></li>
                     </ul>
             </div>
+        {%elif self.admin == True and message.user.admin == True%}
+            <p style = "color: orange;">{{message.user.user_name}}: {{message.message}}</p>
         {% endif%}
+
     {% endif%}
 </div>
 {% endfor %}
