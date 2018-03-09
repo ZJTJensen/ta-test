@@ -156,6 +156,17 @@ def adminUser(req,id):
     user.save()
     Messages.objects.create(message = "" + user.user_name + " Has been made a admin", user = None)
     return redirect('/success')
+    
+def noAdminUser(req,id):
+    cuser = User.manager.get(id=req.session['id'])
+    if cuser.admin != True:
+        return redirect ('/success')
+    message = Messages.objects.get(id=id)
+    user = message.user
+    user.admin = False
+    user.save()
+    Messages.objects.create(message = "" + user.user_name + " Has been removed as a admin", user = None)
+    return redirect('/success')
 
 def find(request):
     users = User.manager.filter(user_name__contains=request.POST['first_name_starts_with'])

@@ -13,6 +13,7 @@ urlpatterns=[
     url(r'^ban/(?P<id>\d+)$', views.banUser),
     url(r'^unban/(?P<id>\d+)$', views.unbanUser),
     url(r'^admin/(?P<id>\d+)$', views.adminUser),
+    url(r'^noadmin/(?P<id>\d+)$', views.noAdminUser),
     url(r'^find$', views.find),
 
 ]

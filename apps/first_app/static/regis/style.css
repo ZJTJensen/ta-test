@@ -1,6 +1,7 @@
 *{
-
+    
 }
+
 .tips{
     list-style: none;
 }
@@ -15,14 +16,28 @@
     
 }
 #LandR{
-    width: 1000px;
+    width: 750px;
     height: auto;
-    margin: 0 auto;
+    margin: 100px auto;
+}
+#xwrapper{
+    width: 600px;
+    height: 100%;
+    margin: 100px auto;
+    border: 1px solid black;
+}
+body{
+    background-image: url('../imgs/pink-dust.png');
+  
+}
+.input{
+    background-color: rgb(187, 161, 126);
 }
 #wrapper{
     width: 500px;
     height: auto;
     margin: 0 auto;
+    
 }
 #search{
     width: 430px;
@@ -42,6 +57,7 @@
 }
 .onclick-menu {
     position: relative;
+
 }
 .onclick-menu:focus .onclick-menu-content {
     /* content is visible if menu is 'opened' */
@@ -54,10 +70,15 @@
     /* disable visibility by default, delay to enable clicks */
     visibility: hidden;
     transition: visibility 0.5s;
+    padding: 0 0 0 0px;
+    border: 2px solid black;
+    margin: 0 0 0 10px;
 }
 
 .remove{
+    vertical-align: left;
     list-style: none;
+    margin: 0px 0px 0px 0px;
 }
 .stuff{
      margin:  10px 0 0 0;
@@ -68,7 +89,9 @@
     overflow-y: scroll;
     overflow-x: hidden;
     border: 1px solid black;
+    background-color: #7474749e;
 }
+
 #error{
 
     border: 1px solid black;

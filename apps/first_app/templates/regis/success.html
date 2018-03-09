@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Board</title>
-    <script src="http://localhost:4000/socket.io/socket.io.js"></script>
+    <script src="http://192.168.1.136:4000/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'regis/style.css' %}">
 </head>
-<body>
+<body id= "xwrapper">
+    
     <div id= "wrapper">
 
 <h2>Welcome </h2>
@@ -29,13 +30,17 @@
                     {{self.user_name}}:
                 <form action="/message" method="post" id="create_message">
                     {% csrf_token %}
-                    <textarea name="message" cols="30" rows="2"></textarea>
+                    {% if self.admin == True %}
+                        <textarea class="input" name="message" cols="30" rows="2">admin~</textarea>
+                    {% else %}
+                        <textarea class="input" name="message" cols="30" rows="2"></textarea>
+                    {% endif %}
                     <input type="hidden" name = "user" value ="{{self}}">
                     <input type="submit" vlaue="Submit" >
                 </form>
             </fieldset>
     <script>
-                    var host = 'localhost';
+                    var host = '192.168.1.136';
             var nodejs_port = '4000';
 
             var socket = io(host + ':' + nodejs_port);
@@ -135,7 +140,7 @@
             {% if self.admin == True %}
             <li class = "tips">Use (admin~) to type in admin channel</li>
             {% endif %}
-            <li class = "tips">Preface link with (http) to make it clickable</li>
+            <li class = "tips">Preface link with (http://) or (https://) to make it clickable</li>
         </ul>
     </div>
 

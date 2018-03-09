@@ -6,22 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Board</title>
-    <script src="http://localhost:4000/socket.io/socket.io.js"></script>
+    <script src="http://192.168.1.136:4000/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'regis/style.css' %}">
 </head>
-<body>
+<body id ="loginandreg">
     <div id="LandR">
     <div id = "register">
     <form action="/register" method="post">
         {% csrf_token %}
         <h1>REGISTER</h1> 
     <div class = "text">
-    <p class = "stuff">email: <input  type="text" name ="email"></p>
-    <p class = "stuff">user name: <input  type="text" name ="user_name"></p>
-    <p class = "stuff">password: <input  type="password" name ="password"></p>
-    <p class = "stuff">confirm password: <input  type="password" name ="confirm_password"></p>
+    <p class = "stuff">email: <input class="input" type="text" name ="email"></p>
+    <p class = "stuff">user name: <input class="input" type="text" name ="user_name"></p>
+    <p class = "stuff">password: <input class="input" type="password" name ="password"></p>
+    <p class = "stuff">confirm password: <input class="input" type="password" name ="confirm_password"></p>
 </div>
 <div class = "move">
     <input class = "button" type="submit" value="push me">
@@ -34,8 +34,8 @@
         {% csrf_token %}
     <h1>LOGIN</h1>
     <div class = "text">
-        <p class = "stuff">email: <input  type="text" name = "email"></p>
-        <p class = "stuff">password: <input  type="password" name = "password"></p>
+        <p class = "stuff">email: <input class="input" type="text" name = "email"></p>
+        <p class = "stuff">password: <input class="input" type="password" name = "password"></p>
     </div>
     <div class = "move">
         <input class = "button" type="submit" value ="log in">
@@ -56,7 +56,7 @@
 
     <script>
         
-    var host = 'localhost';
+    var host = '192.168.1.136';
     var nodejs_port = '4000';
 
     var socket = io(host + ':' + nodejs_port);
